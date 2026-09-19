@@ -1,0 +1,338 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: "Cairo", sans-serif;
+}
+
+body {
+  background-color: #0d1117;
+  color: #e6edf3;
+  min-height: 100vh;
+}
+
+.admin-container {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* Sidebar */
+.sidebar {
+  width: 260px;
+  background-color: #161b22;
+  border-left: 1px solid #30363d;
+  padding: 2rem 1.5rem;
+}
+
+.sidebar h2 {
+  font-size: 1.3rem;
+  color: #ffffff;
+  margin-bottom: 2.5rem;
+}
+
+.sidebar h2 span {
+  color: #eee8aa;
+}
+
+.sidebar nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.sidebar nav a {
+  color: #8b949e;
+  text-decoration: none;
+  padding: 0.7rem 1rem;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: all 0.2s;
+}
+
+.sidebar nav a:hover,
+.sidebar nav a.active {
+  background-color: #21262d;
+  color: #eee8aa;
+}
+
+/* Content Area */
+.content {
+  flex: 1;
+  padding: 3rem;
+  max-width: 800px;
+}
+
+.content h1 {
+  font-size: 1.8rem;
+  margin-bottom: 2rem;
+  color: #f0f6fc;
+}
+
+.product-form {
+  background-color: #161b22;
+  border: 1px solid #30363d;
+  padding: 2rem;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form-group label {
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: #c9d1d9;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  background-color: #0d1117;
+  border: 1px solid #30363d;
+  color: #ffffff;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  outline: none;
+  font-size: 0.95rem;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  border-color: #eee8aa;
+}
+
+.submit-btn {
+  background-color: #238636;
+  color: #ffffff;
+  border: none;
+  padding: 0.85rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  margin-top: 1rem;
+  transition: background-color 0.2s;
+}
+
+.submit-btn:hover {
+  background-color: #2ea043;
+}
+
+.status-msg {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  border-radius: 8px;
+  font-weight: 600;
+  display: none;
+}
+
+.status-msg.success {
+  display: block;
+  background-color: rgba(46, 160, 67, 0.15);
+  border: 1px solid #2ea043;
+  color: #3fb950;
+}
+
+.status-msg.error {
+  display: block;
+  background-color: rgba(248, 81, 73, 0.15);
+  border: 1px solid #f85149;
+  color: #f85149;
+}
+/* ==================== Modal Overlay & Glass Style ==================== */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(5px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  animation: fadeIn 0.25s ease-in-out;
+}
+
+.custom-modal-box {
+  background: #12181f;
+  border: 1px solid #263341;
+  border-radius: 10px;
+  padding: 24px;
+  width: 90%;
+  max-width: 450px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+  direction: rtl;
+  color: #f0f6fc;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #263341;
+  padding-bottom: 12px;
+  margin-bottom: 18px;
+}
+
+.modal-header h3 {
+  margin: 0;
+  font-size: 1.2rem;
+  color: #ffffff;
+}
+
+.close-btn {
+  background: transparent;
+  border: none;
+  color: #8b949e;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.close-btn:hover {
+  color: #f85149;
+}
+
+/* Form Styles like the reference screenshot */
+.form-group {
+  margin-bottom: 16px;
+  text-align: right;
+}
+
+.form-group label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #e6edf3;
+  font-size: 0.95rem;
+}
+
+.form-group input[type="text"],
+.form-group input[type="number"],
+.form-group input[type="file"] {
+  width: 100%;
+  padding: 12px;
+  background-color: #0d1117;
+  border: 1px solid #30363d;
+  border-radius: 6px;
+  color: #ffffff;
+  font-family: "Cairo", sans-serif;
+  font-size: 0.95rem;
+  box-sizing: border-box;
+  transition: border-color 0.2s;
+}
+
+.form-group input:focus {
+  border-color: #eee8aa;
+  outline: none;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.btn-confirm {
+  flex: 1;
+  background: #238636;
+  color: #ffffff;
+  border: none;
+  padding: 10px;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.btn-confirm:hover {
+  background: #2ea043;
+}
+
+.btn-danger {
+  flex: 1;
+  background: #da3633;
+  color: #ffffff;
+  border: none;
+  padding: 10px;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.btn-danger:hover {
+  background: #f85149;
+}
+
+.btn-cancel {
+  flex: 1;
+  background: #21262d;
+  color: #c9d1d9;
+  border: 1px solid #30363d;
+  padding: 10px;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.btn-cancel:hover {
+  background: #30363d;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.modal-icon {
+  font-size: 2.5rem;
+  margin-bottom: 8px;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+/* جعل نافذة المودال قابلة للتمرير والنزول بـ Scroll */
+.custom-modal-box {
+  max-height: 90vh; /* تحديد أقصى ارتفاع بنسبة 90% من حجم الشاشة */
+  overflow-y: auto; /* ظهور شريط التمرير العمودي عند زيادة المحتوى */
+}
+
+/* تحديد ارتفاع أقصى لحاوية المقاسات كي لا تتوسع بشكل مفرط */
+#addSizesContainer,
+#editSizesContainer {
+  max-height: 200px;
+  overflow-y: auto;
+  padding-right: 5px;
+  border: 1px solid #30363d;
+  border-radius: 6px;
+  padding: 8px;
+  background: #0d1117;
+}
+
+/* تحسين شكل شريط التمرير (Scrollbar) */
+.custom-modal-box::-webkit-scrollbar,
+#addSizesContainer::-webkit-scrollbar,
+#editSizesContainer::-webkit-scrollbar {
+  width: 6px;
+}
+
+.custom-modal-box::-webkit-scrollbar-thumb,
+#addSizesContainer::-webkit-scrollbar-thumb,
+#editSizesContainer::-webkit-scrollbar-thumb {
+  background-color: #30363d;
+  border-radius: 4px;
+}

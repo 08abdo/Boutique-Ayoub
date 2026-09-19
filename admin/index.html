@@ -1,0 +1,322 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Boutique_Ayoub admin</title>
+    <link rel="stylesheet" href="admin-style.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="admin-container">
+      <!-- الشريط الجانبي Navigation -->
+      <aside class="sidebar">
+        <h2>Boutique_Ayoub <span>ADMIN</span></h2>
+        <nav>
+          <a
+            href="#"
+            class="nav-tab active"
+            onclick="
+              switchTab('جميع المنتجات', this);
+              return false;
+            "
+          >
+            جميع المنتجات
+          </a>
+          <a
+            href="#"
+            class="nav-tab"
+            onclick="
+              switchTab('القسم 1', this);
+              return false;
+            "
+          >
+            القسم الأول
+          </a>
+          <a
+            href="#"
+            class="nav-tab"
+            onclick="
+              switchTab('القسم 2', this);
+              return false;
+            "
+          >
+            القسم الثاني
+          </a>
+          <a
+            href="#"
+            class="nav-tab"
+            onclick="
+              switchTab('القسم 3', this);
+              return false;
+            "
+          >
+            القسم الثالث
+          </a>
+          <a
+            href="#"
+            class="nav-tab orders-tab"
+            onclick="
+              showOrdersTab(this);
+              return false;
+            "
+          >
+            📦 الطلبيات الواردة
+          </a>
+          <a
+            href="#"
+            class="logout-btn"
+            onclick="
+              logout();
+              return false;
+            "
+          >
+            تسجيل الخروج
+          </a>
+        </nav>
+      </aside>
+
+      <!-- المحتوى الرئيسي -->
+      <main class="content">
+        <div class="section-header">
+          <h1 id="currentSectionTitle">إدارة: جميع المنتجات</h1>
+          <button
+            id="openAddModalBtn"
+            class="btn-primary"
+            onclick="openAddModal()"
+          >
+            + إضافة منتج جديد
+          </button>
+        </div>
+
+        <!-- قائمة المنتجات الحالية -->
+        <section id="productsSection" class="products-list-section">
+          <h3>
+            المنتجات المعروضة حالياً (<span id="categoryLabel"
+              >جميع المنتجات</span
+            >)
+          </h3>
+          <div id="adminProductsContainer" class="admin-grid"></div>
+        </section>
+
+        <!-- قسم عرض طلبات الزبائن -->
+        <section
+          id="ordersSection"
+          class="products-list-section"
+          style="display: none"
+        >
+          <h3>طلبيات الشراء الواردة من المتجر</h3>
+          <div id="adminOrdersContainer" class="orders-list-container"></div>
+        </section>
+      </main>
+    </div>
+
+    <!-- ==================== المودالات المنبثقة (Popups) ==================== -->
+
+    <!-- 1. مودال إضافة منتج جديد -->
+    <div id="addProductModal" class="modal-overlay" style="display: none">
+      <div class="custom-modal-box">
+        <div class="modal-header">
+          <h3>إضافة منتج جديد</h3>
+          <button class="close-btn" onclick="closeAddModal()">&times;</button>
+        </div>
+        <form id="addProductForm">
+          <div class="form-group">
+            <label>اسم المنتج:</label>
+            <input
+              type="text"
+              id="name"
+              placeholder="أدخل اسم المنتج"
+              required
+            />
+          </div>
+
+          <!-- القائمة المنسدلة لاختيار القسم -->
+          <div class="form-group">
+            <label>القسم المخصص للمنتج:</label>
+            <select
+              id="categorySelect"
+              required
+              style="
+                width: 100%;
+                padding: 10px;
+                border-radius: 8px;
+                border: 1px solid #ccc;
+              "
+            >
+              <option value="القسم 1">القسم الأول</option>
+              <option value="القسم 2">القسم الثاني</option>
+              <option value="القسم 3">القسم الثالث</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>السعر (د.ج):</label>
+            <input type="number" id="price" placeholder="أدخل السعر" required />
+          </div>
+
+          <!-- إدارة المقاسات والمخزون للإضافة -->
+          <div class="form-group" style="margin-top: 15px">
+            <label style="font-weight: bold; margin-bottom: 8px; display: block"
+              >إدارة المقاسات والمخزون (Pointures & Stock):</label
+            >
+            <div
+              id="addSizesContainer"
+              style="display: flex; flex-direction: column; gap: 8px"
+            >
+              <!-- سيتم إضافة المقاسات والكميات ديناميكياً -->
+            </div>
+            <button
+              type="button"
+              onclick="addAdminSizeRow('addSizesContainer')"
+              style="
+                margin-top: 8px;
+                background: #238636;
+                color: white;
+                border: none;
+                padding: 6px 12px;
+                border-radius: 6px;
+                cursor: pointer;
+                font-family: &quot;Cairo&quot;;
+              "
+            >
+              + إضافة مقاس وكمية
+            </button>
+          </div>
+
+          <!-- رفع الصور المباشر -->
+          <div class="form-group">
+            <label>تحميل الصور من الجهاز (يمكن اختيار أكثر من صورة):</label>
+            <input type="file" id="imageFiles" accept="image/*" multiple />
+          </div>
+
+          <div class="modal-actions">
+            <button type="submit" class="btn-confirm">إضافة المنتج</button>
+            <button type="button" class="btn-cancel" onclick="closeAddModal()">
+              إلغاء
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- 2. مودال تعديل البيانات -->
+    <div id="editProductModal" class="modal-overlay" style="display: none">
+      <div class="custom-modal-box">
+        <div class="modal-header">
+          <h3>تعديل بيانات المنتج</h3>
+          <button class="close-btn" onclick="closeEditModal()">&times;</button>
+        </div>
+        <input type="hidden" id="editProdId" />
+        <div class="form-group">
+          <label>اسم المنتج الجديد:</label>
+          <input type="text" id="editProdTitle" required />
+        </div>
+        <div class="form-group">
+          <label>القسم:</label>
+          <select
+            id="editProdCategory"
+            style="
+              width: 100%;
+              padding: 10px;
+              border-radius: 8px;
+              border: 1px solid #ccc;
+            "
+            required
+          >
+            <option value="القسم 1">القسم الأول</option>
+            <option value="القسم 2">القسم الثاني</option>
+            <option value="القسم 3">القسم الثالث</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>السعر الجديد (د.ج):</label>
+          <input type="number" id="editProdPrice" required />
+        </div>
+
+        <!-- إدارة المقاسات والمخزون للتعديل -->
+        <div class="form-group" style="margin-top: 15px">
+          <label style="font-weight: bold; margin-bottom: 8px; display: block"
+            >تعديل المقاسات والمخزون (Pointures & Stock):</label
+          >
+          <div
+            id="editSizesContainer"
+            style="display: flex; flex-direction: column; gap: 8px"
+          >
+            <!-- سيتم إضافة المقاسات والكميات هنا ديناميكياً -->
+          </div>
+          <button
+            type="button"
+            onclick="addAdminSizeRow('editSizesContainer')"
+            style="
+              margin-top: 8px;
+              background: #238636;
+              color: white;
+              border: none;
+              padding: 6px 12px;
+              border-radius: 6px;
+              cursor: pointer;
+              font-family: &quot;Cairo&quot;;
+            "
+          >
+            + إضافة مقاس وكمية
+          </button>
+        </div>
+
+        <div class="form-group">
+          <label>تحديث الصور من الجهاز (اختياري):</label>
+          <input
+            type="file"
+            id="editProdImageFiles"
+            accept="image/*"
+            multiple
+          />
+        </div>
+        <div class="form-group">
+          <label>تحديث روابط الصور (مفصولة بفاصلة):</label>
+          <textarea
+            id="editProdImageUrls"
+            placeholder="https://example.com/img1.jpg, https://example.com/img2.jpg"
+            style="
+              width: 100%;
+              height: 60px;
+              padding: 8px;
+              border-radius: 8px;
+              border: 1px solid #ccc;
+            "
+          ></textarea>
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="btn-confirm" onclick="saveProductEdit()">
+            حفظ التعديلات
+          </button>
+          <button type="button" class="btn-cancel" onclick="closeEditModal()">
+            إلغاء
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. مودال الحذف والتأكيد -->
+    <div id="confirmDeleteModal" class="modal-overlay" style="display: none">
+      <div class="custom-modal-box text-center">
+        <div class="modal-icon">⚠️</div>
+        <h3 style="margin-bottom: 10px">تأكيد الحذف</h3>
+        <p style="margin-bottom: 20px">
+          هل أنت متأكد من حذف هذا المنتج نهائياً من المتجر؟
+        </p>
+        <div class="modal-actions">
+          <button id="confirmDeleteBtn" class="btn-danger">حذف نهائي</button>
+          <button type="button" class="btn-cancel" onclick="closeDeleteModal()">
+            إلغاء
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script src="admin-app.js"></script>
+  </body>
+</html>
