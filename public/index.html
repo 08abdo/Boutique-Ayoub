@@ -21,34 +21,42 @@
     <!-- Header Navbar -->
     <header class="header">
       <div class="header-container">
-        <a href="#" class="logo">Boutique<span> Ayoub</span></a>
+        <!-- الشعار -->
+        <a href="#" class="logo">Boutique <span>Ayoub</span></a>
 
+        <!-- القائمة الرئيسية -->
         <nav class="nav-menu">
-          <a href="#hero" class="active">الرئيسية</a>
+          <a href="#" class="active">الرئيسية</a>
           <a href="#categories">الأقسام</a>
           <a href="#products">المنتجات</a>
           <a href="#contact">تواصل معنا</a>
         </nav>
 
+        <!-- إجراءات الهيدر (زر الهامبرغر وزر السلة) -->
         <div class="header-actions">
+          <!-- زر فتح قائمة الهاتف -->
+          <button class="menu-toggle-btn" id="menuToggle" aria-label="القائمة">
+            ☰
+          </button>
+
+          <!-- زر السلة مع الأيقونة والشارة بداخله -->
           <button
             class="cart-btn"
             onclick="toggleCart()"
             aria-label="سلة المشتريات"
           >
-            <button class="menu-toggle-btn" id="menuToggle">☰</button>
             <svg
               class="icon"
+              viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
-              viewBox="0 0 24 24"
+              stroke-width="2"
             >
               <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M16 11V7a4 4 0 00-8 0v4M5 11h14l1 12H4L5 11z"
+                d="M6 2L3 6v14a2 2 2 2 0 0 0 2 2h14a2 2 2 0 0 0 2-2V6l-3-4z"
               ></path>
+              <line x1="3" y1="6" x2="21" y2="6"></line>
+              <path d="M16 10a4 4 0 0 1-8 0"></path>
             </svg>
             <span class="badge" id="cartCount">0</span>
           </button>

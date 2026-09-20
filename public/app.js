@@ -22,14 +22,33 @@ function toggleCart() {
   if (modal) {
     modal.classList.toggle("open");
     modal.classList.toggle("active");
-    if (
-      modal.classList.contains("open") ||
-      modal.classList.contains("active")
-    ) {
-      renderCartDrawer();
-    }
   }
 }
+
+// ربط زر السلة بالدالة عند تحميل الصفحة
+document.addEventListener("DOMContentLoaded", () => {
+  const cartBtn = document.querySelector(".cart-btn");
+  const closeCartBtn = document.querySelector(".close-cart");
+  const cartOverlay = document.querySelector(".cart-overlay");
+
+  // فتح السلة عند الضغط على زر السلة
+  if (cartBtn) {
+    cartBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      toggleCart();
+    });
+  }
+
+  // إغلاق السلة عند الضغط على زر X
+  if (closeCartBtn) {
+    closeCartBtn.addEventListener("click", toggleCart);
+  }
+
+  // إغلاق السلة عند الضغط خارجها (على الخلفية المظلمة)
+  if (cartOverlay) {
+    cartOverlay.addEventListener("click", toggleCart);
+  }
+});
 
 function renderCartDrawer() {
   const container = document.getElementById("cartItemsContainer");
