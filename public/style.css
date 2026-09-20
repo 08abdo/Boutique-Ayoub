@@ -23,6 +23,7 @@
 
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: 80px; /* مسافة أمان لكي لا يغطي الهيدر العناوين عند التنقل */
 }
 
 body {
@@ -70,7 +71,7 @@ body {
 .logo {
   font-size: 1.3rem;
   font-weight: 800;
-  color: #ffffff;
+  color: #ffffff; /* لون كلمة Boutique بيضاء */
   text-decoration: none;
   letter-spacing: 0.5px;
   display: flex;
@@ -79,7 +80,7 @@ body {
 }
 
 .logo span {
-  color: var(--accent-gold);
+  color: var(--accent-gold); /* لون كلمة Ayoub ذهبية */
 }
 
 .header-shop-avatar {
@@ -274,6 +275,8 @@ body {
   cursor: pointer;
   border: 1px solid var(--border-color);
   transition: all 0.3s ease;
+  text-decoration: none;
+  display: block;
 }
 
 .cat-img-box {
@@ -337,7 +340,7 @@ body {
 
 .category-card.active {
   border-color: var(--accent-gold);
-  box-shadow: 0 0 15px rgba(47, 129, 247, 0.4);
+  box-shadow: 0 0 15px rgba(227, 168, 87, 0.3);
 }
 
 .main-container {
@@ -901,18 +904,19 @@ body {
   box-shadow: 0 2px 8px rgba(40, 167, 69, 0.3);
 }
 
+/* Footer Section */
 .footer {
   background-image:
     linear-gradient(
       180deg,
-      rgba(13, 17, 23, 0.85) 0%,
-      rgba(9, 13, 19, 0.95) 100%
+      rgba(13, 17, 23, 0.9) 0%,
+      rgba(9, 13, 19, 0.98) 100%
     ),
     url("images/banner2.png");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  border-top: 1px solid var(--bg-hover);
+  border-top: 1px solid var(--border-color);
   padding: 4rem 1.5rem 1.5rem 1.5rem;
   text-align: center;
   position: relative;
@@ -955,12 +959,12 @@ body {
 .footer-title {
   font-size: 1.8rem;
   font-weight: 800;
-  color: #ffffff;
+  color: #ffffff; /* لون كلمة Boutique في الفوتر */
   margin-bottom: 0.4rem;
 }
 
 .footer-title span {
-  color: var(--accent-gold);
+  color: var(--accent-gold); /* لون كلمة Ayoub في الفوتر */
 }
 
 .footer-subtitle {
@@ -1001,7 +1005,7 @@ body {
 .footer-bottom {
   width: 100%;
   padding-top: 1.5rem;
-  border-top: 1px solid var(--bg-hover);
+  border-top: 1px solid var(--border-color);
   display: flex;
   justify-content: space-between;
   align-items: center;
