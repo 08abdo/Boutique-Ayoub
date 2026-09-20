@@ -472,7 +472,7 @@ async function fetchAndRenderProducts(selectedCategory = "الكل") {
 
   try {
     if (allProducts.length === 0) {
-      const response = await fetch("http://localhost:5000/api/products");
+      const response = await fetch("/api/products");
 
       if (!response.ok) {
         throw new Error(`خطأ في السيرفر: ${response.status}`);
@@ -772,7 +772,7 @@ function initCheckoutForm() {
 
 async function sendOrderToServer(orderPayload, onSuccess) {
   try {
-    const response = await fetch("http://localhost:5000/api/orders", {
+    const response = await fetch("/api/orders", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
