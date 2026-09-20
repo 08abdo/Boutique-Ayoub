@@ -7,6 +7,7 @@
   --bg-hover: #21262d;
   --border-color: #30363d;
   --accent-gold: #eee8aa;
+  --accent-gold-border: #e3a857;
   --accent-green: #238636;
   --accent-green-hover: #2ea043;
   --accent-red: #da3633;
@@ -60,6 +61,7 @@ body {
   position: sticky;
   top: 0;
   z-index: 1000;
+  overflow: visible !important; /* لضمان عدم قص أيقونة السلة والشارة */
 }
 
 .header-container {
@@ -78,50 +80,63 @@ body {
   color: #ffffff;
   text-decoration: none;
   letter-spacing: 0.5px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .logo span {
   color: var(--accent-gold);
 }
 
+/* الصورة الدائرية للوغو في الهيدر مع الإطار الذهبي */
+.header-shop-avatar {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+  border: 2px solid var(--accent-gold);
+  box-shadow: 0 0 8px rgba(227, 168, 87, 0.4);
+}
+
 .nav-menu {
+  position: relative;
   display: flex;
-  gap: 2rem;
+  align-items: center;
+  gap: 20px;
 }
 
 .nav-menu a {
   position: relative;
   text-decoration: none;
-  color: var(--text-muted);
-  font-weight: 600;
-  font-size: 0.95rem;
-  padding: 0.4rem 0;
+  color: #ffffff;
+  padding: 8px 16px;
+  font-weight: 500;
   transition: color 0.3s ease;
+  z-index: 1;
 }
 
-.nav-menu a::after {
-  content: "";
+.nav-menu a.active {
+  color: #eee8aa;
+}
+
+/* الخط الأصفر المتحرك تحت النص */
+.nav-indicator {
   position: absolute;
-  bottom: -2px;
-  right: 0;
-  width: 0;
-  height: 2px;
-  background-color: var(--accent-gold);
+  bottom: 0;
+  left: 0;
+  height: 3px;
+  background-color: #eee8aa;
   border-radius: 2px;
-  transition:
-    width 0.3s ease,
-    right 0.3s ease;
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 0;
+  pointer-events: none;
 }
 
 .nav-menu a:hover,
 .nav-menu a.active {
   color: var(--accent-gold);
-}
-
-.nav-menu a:hover::after,
-.nav-menu a.active::after {
-  width: 100%;
-  right: 0;
 }
 
 .header-actions {
@@ -140,14 +155,14 @@ body {
   cursor: pointer;
 }
 
-/* تنسيق زر السلة الحاوي */
+/* تنسيق زر السلة الحاوي - محسّن ومصعّد */
 .cart-btn {
   position: relative;
   background: #161b22;
   border: 1px solid #30363d;
   color: #f0f6fc;
-  width: 44px;
-  height: 44px;
+  width: 42px;
+  height: 42px;
   border-radius: 10px;
   display: flex;
   align-items: center;
@@ -168,26 +183,28 @@ body {
   width: 22px;
   height: 22px;
   stroke: #f0f6fc;
+  display: block;
 }
 
 /* تنسيق شارة عدد المنتجات (Badge) */
 .badge {
   position: absolute;
   top: -6px;
-  left: -6px; /* ضبط التموضع في الجهة اليسرى يتناسب مع اتجاه RTL */
-  background-color: #eee8aa; /* لون خضر احترافي للمتجر */
+  left: -6px;
+  background-color: var(--accent-green);
   color: #ffffff;
   font-size: 0.75rem;
   font-weight: 700;
   min-width: 20px;
   height: 20px;
-  padding: 0 5px;
+  padding: 0 4px;
   border-radius: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 2px solid #0d1117; /* إطار بنفس لون خلفية الموقع لعزل الشارة */
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+  border: 2px solid #0d1117;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
+  z-index: 10;
 }
 
 .lang-select {
@@ -260,7 +277,7 @@ body {
 .categories-container .section-title {
   margin-bottom: 1.5rem;
   font-size: 1.4rem;
-  color: var(--accent-gold);
+  color: var(--text-main);
 }
 
 .categories-grid {
@@ -515,13 +532,11 @@ body {
   max-width: 420px;
   height: 100%;
   background-color: var(--bg-dark);
-  border-left: 1px solid var(--border-color); /* التعديل هنا: border-left بدلاً من border-right */
+  border-left: 1px solid var(--border-color);
   display: flex;
   flex-direction: column;
   z-index: 2;
-  transform: translateX(
-    100%
-  ); /* التعديل هنا: +100% لإخفائها جهة اليمين في RTL */
+  transform: translateX(100%);
   transition: transform 0.3s ease;
   margin-right: 0;
   margin-left: auto;
@@ -919,7 +934,17 @@ body {
    8. الفوتر (Footer Section)
    ========================================================= */
 .footer {
-  background: linear-gradient(180deg, #0d1117 0%, #090d13 100%);
+  /* ضع مسار صورتك مكان images/your-footer-bg.jpg */
+  background-image:
+    linear-gradient(
+      180deg,
+      rgba(13, 17, 23, 0.85) 0%,
+      rgba(9, 13, 19, 0.95) 100%
+    ),
+    url("images/banner2.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
   border-top: 1px solid var(--bg-hover);
   padding: 4rem 1.5rem 1.5rem 1.5rem;
   text-align: center;
@@ -934,16 +959,25 @@ body {
   align-items: center;
 }
 
+/* دائرة اللوغو الفوقانية في الفوتر مع الإطار الذهبي */
 .footer-logo-circle {
   width: 75px;
   height: 75px;
-  background-color: #ffffff;
   border-radius: 50%;
+  overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 0 20px rgba(255, 255, 255, 0.15);
-  margin-bottom: 1.2rem;
+  margin: 0 auto 1.2rem auto;
+  border: 2px solid var(--accent-gold);
+  box-shadow: 0 0 15px rgba(227, 168, 87, 0.3);
+  background-color: transparent;
+}
+
+.footer-logo-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .logo-text {
@@ -1023,9 +1057,15 @@ body {
   font-weight: bold;
 }
 
-.developer-tag span {
+.dev-link {
   color: #ffffff;
   font-weight: 600;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.dev-link:hover {
+  color: var(--accent-gold);
 }
 
 /* =========================================================
@@ -1038,12 +1078,10 @@ body {
     padding: 0 1rem;
   }
 
-  /* إظهار زر فتح القائمة */
   .menu-toggle-btn {
     display: block;
   }
 
-  /* تحويل nav-menu إلى قائمة جانبية تنزلق للهواتف */
   .nav-menu {
     position: fixed;
     top: 65px;
@@ -1060,7 +1098,6 @@ body {
     z-index: 999;
   }
 
-  /* كلاس يضاف بـ JavaScript عند الضغط على الزر */
   .nav-menu.active {
     right: 0;
   }
@@ -1093,7 +1130,6 @@ body {
     padding: 1.5rem 0.8rem;
   }
 
-  /* جعل التصنيفات تظهر بكارتين في السطر */
   .categories-grid {
     grid-template-columns: repeat(2, 1fr);
     gap: 0.8rem;
@@ -1107,7 +1143,6 @@ body {
     font-size: 0.95rem;
   }
 
-  /* جعل المنتجات تظهر بكارتين في السطر لتصفح أسهل */
   .products-grid {
     grid-template-columns: repeat(2, 1fr);
     gap: 0.8rem;
@@ -1130,7 +1165,6 @@ body {
     font-size: 0.78rem;
   }
 
-  /* ضبط حجم سلة التسوق والنوافذ المنبثقة للـ Mobile */
   .cart-content {
     width: 100%;
     max-width: 100%;
@@ -1159,10 +1193,7 @@ body {
 /* شاشات الهواتف الصغير جداً (Small Mobile - أقل من 480px) */
 @media (max-width: 480px) {
   .products-grid {
-    grid-template-columns: repeat(
-      1,
-      1fr
-    ); /* كارت واحد في السطر للشاشات الضيقة جداً */
+    grid-template-columns: repeat(1, 1fr);
   }
 
   .categories-grid {
@@ -1171,5 +1202,16 @@ body {
 
   .logo {
     font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .header-shop-avatar {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
   }
 }

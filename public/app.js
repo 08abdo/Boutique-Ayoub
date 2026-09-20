@@ -351,7 +351,7 @@ function addCurrentProductToCart() {
 }
 
 // ==========================================
-// 3. إدارة النوافذ المنبثقة وإشارت التنبيه
+// 3. إدارة النوافذ المنبثقة وإشارات التنبيه
 // ==========================================
 function openCheckoutForm() {
   if (!cart || cart.length === 0) {
@@ -426,7 +426,6 @@ async function fetchAndRenderProducts(selectedCategory = "all") {
 }
 
 function filterByCategory(categoryName, cardElement) {
-  // تحديث الكلاس active للأزرار
   const cards = document.querySelectorAll(".category-card");
   cards.forEach((c) => c.classList.remove("active"));
   if (cardElement) cardElement.classList.add("active");
@@ -494,7 +493,6 @@ function renderProductCards(products, container) {
 let isSubmitting = false;
 
 function initForms() {
-  // 1. نموذج السلة الرئيسية
   const checkoutForm = document.getElementById("checkoutForm");
   if (checkoutForm) {
     checkoutForm.onsubmit = async (e) => {
@@ -527,7 +525,6 @@ function initForms() {
     };
   }
 
-  // 2. نموذج الشراء المباشر من تفاصيل المنتج
   const directBuyForm = document.getElementById("directBuyForm");
   if (directBuyForm) {
     directBuyForm.onsubmit = async (e) => {
@@ -601,14 +598,47 @@ async function sendOrder(orderPayload, formElement, isDirect = false) {
 }
 
 // ==========================================
-// 6. التشغيل الذاتي عند تحميل الصفحة
+// 6. إدارة الخط الأصفر المتحرك في القائمة
+// ==========================================
+function initNavIndicator() {
+  const navLinks = document.querySelectorAll(".nav-menu a");
+  const indicator = document.querySelector(".nav-indicator");
+
+  if (!indicator || navLinks.length === 0) return;
+
+  function updateIndicator(target) {
+    if (!target) return;
+    indicator.style.width = target.offsetWidth + "px";
+    indicator.style.left = target.offsetLeft + "px";
+  }
+
+  const activeLink =
+    document.querySelector(".nav-menu a.active") || navLinks[0];
+  updateIndicator(activeLink);
+
+  navLinks.forEach((link) => {
+    link.addEventListener("click", function () {
+      navLinks.forEach((l) => l.classList.remove("active"));
+      this.classList.add("active");
+      updateIndicator(this);
+    });
+  });
+
+  window.addEventListener("resize", () => {
+    const currentActive = document.querySelector(".nav-menu a.active");
+    if (currentActive) updateIndicator(currentActive);
+  });
+}
+
+// ==========================================
+// 7. التشغيل عند التحميل
 // ==========================================
 document.addEventListener("DOMContentLoaded", () => {
   updateCartUI();
   fetchAndRenderProducts("all");
   initForms();
 
-  // إغلاق القائمة الجانبية للهاتف عند الضغط
+  // فتح/إغلاق القائمة الجانبية للهاتف
   const menuToggle = document.getElementById("menuToggle");
   const navMenu = document.querySelector(".nav-menu");
   if (menuToggle && navMenu) {
@@ -617,3 +647,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 });
+
+// تشغيل أنيميشن الخط المتحرك بعد كمال تحميل العناصر والخطوط
+window.addEventListener("load", initNavIndicator);
